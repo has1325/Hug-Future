@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://care-on.netlify.app/sitemap.xml
+Sitemap: https://hug-future.netlify.app/sitemap.xml

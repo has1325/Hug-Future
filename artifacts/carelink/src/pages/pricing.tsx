@@ -5,7 +5,13 @@ import { useListPlans } from "@workspace/api-client-react";
 import { Link } from "wouter";
 
 export default function PricingPage() {
-  const { data: plans = [] } = useListPlans();
+  const { data } = useListPlans();
+
+  const plans = Array.isArray(data)
+    ? data
+    : Array.isArray(data?.plans)
+      ? data.plans
+      : [];
 
   return (
     <div className="min-h-screen pt-20 pb-24 bg-background">
@@ -22,11 +28,10 @@ export default function PricingPage() {
             {plans.map((plan) => (
               <div
                 key={plan.id}
-                className={`relative bg-card rounded-2xl border-2 p-7 flex flex-col transition-all ${
-                  plan.isPopular
+                className={`relative bg-card rounded-2xl border-2 p-7 flex flex-col transition-all ${plan.isPopular
                     ? "border-primary shadow-lg scale-105"
                     : "border-card-border hover:border-primary/40"
-                }`}
+                  }`}
                 data-testid={`card-plan-${plan.slug}`}
               >
                 {plan.isPopular && (

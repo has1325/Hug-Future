@@ -74,9 +74,11 @@ export default function HomePage() {
 
   const caregivers = Array.isArray(featuredCaregivers)
     ? featuredCaregivers
-    : Array.isArray((featuredCaregivers as any)?.data)
-      ? (featuredCaregivers as any).data
-      : [];
+    : Array.isArray((featuredCaregivers as any)?.caregivers)
+      ? (featuredCaregivers as any).caregivers
+      : Array.isArray((featuredCaregivers as any)?.data)
+        ? (featuredCaregivers as any).data
+        : [];
 
   const sortedCaregivers = [...caregivers].sort((a: any, b: any) => {
     const scoreA = (a.rating || 0) + (a.experience || 0);
@@ -185,15 +187,19 @@ export default function HomePage() {
       {/* Featured Caregivers */}
       <section className="py-16 bg-background">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-end justify-between mb-10">
+
+          {/* 상단 제목 + 버튼 */}
+          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-10">
             <div>
               <h2 className="text-3xl font-bold text-foreground">
                 추천 돌봄 인력
               </h2>
+
               <p className="mt-2 text-muted-foreground">
                 검증되고 평점 높은 전문가를 소개합니다
               </p>
             </div>
+
             <div className="flex gap-3">
               <Button
                 variant={recommendedOnly ? "default" : "outline"}
@@ -201,6 +207,7 @@ export default function HomePage() {
               >
                 AI 추천 보기
               </Button>
+
               <Link href="/caregivers" data-testid="link-see-all-caregivers">
                 <Button variant="outline" className="gap-2">
                   전체 보기
@@ -208,21 +215,28 @@ export default function HomePage() {
                 </Button>
               </Link>
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-              {displayedCaregivers.length > 0 ? (
-                displayedCaregivers.map((cg: any) => (
-                  <CaregiverCard key={cg?.id ?? Math.random()} caregiver={cg} />
-                ))
-              ) : (
-                [1, 2, 3].map((i) => (
-                  <div
-                    key={i}
-                    className="h-64 rounded-2xl bg-muted animate-pulse"
-                  />
-                ))
-              )}
-            </div>
           </div>
+
+          {/* 카드 리스트 */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            {displayedCaregivers.length > 0 ? (
+              displayedCaregivers.map((cg: any) => (
+                <CaregiverCard
+                  key={cg?.id ?? Math.random()}
+                  caregiver={cg}
+                />
+              ))
+            ) : (
+              [1, 2, 3].map((i) => (
+                <div
+                  key={i}
+                  className="h-64 rounded-2xl bg-muted animate-pulse"
+                />
+              ))
+            )}
+          </div>
+
+        </div>
       </section>
 
       {/* Service Types */}

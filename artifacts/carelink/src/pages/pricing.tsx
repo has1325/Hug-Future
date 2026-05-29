@@ -5,7 +5,7 @@ import { useListPlans } from "@workspace/api-client-react";
 import { Link } from "wouter";
 
 export default function PricingPage() {
-  const { data: plans } = useListPlans();
+  const { data: plans = [] } = useListPlans();
 
   return (
     <div className="min-h-screen pt-20 pb-24 bg-background">
@@ -17,7 +17,7 @@ export default function PricingPage() {
           </p>
         </div>
 
-        {plans ? (
+        {plans.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {plans.map((plan) => (
               <div
@@ -39,7 +39,7 @@ export default function PricingPage() {
                   <p className="text-sm text-muted-foreground mt-1">주 {plan.weeklyVisits}회 방문</p>
                   <div className="mt-4 flex items-end gap-1">
                     <span className="text-4xl font-bold text-primary">
-                      {plan.monthlyPrice.toLocaleString()}
+                      {(plan.monthlyPrice || 0).toLocaleString()}
                     </span>
                     <span className="text-muted-foreground pb-1">원/월</span>
                   </div>
@@ -48,7 +48,7 @@ export default function PricingPage() {
                   )}
                 </div>
                 <ul className="mt-6 space-y-3 flex-1">
-                  {plan.features.map((f) => (
+                  {(plan.features || []).map((f) => (
                     <li key={f} className="flex items-start gap-2.5 text-sm text-foreground/80">
                       <Check className="w-4 h-4 text-primary flex-shrink-0 mt-0.5" />
                       {f}

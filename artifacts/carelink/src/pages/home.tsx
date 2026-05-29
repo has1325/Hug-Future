@@ -18,6 +18,7 @@ import {
 } from "@workspace/api-client-react";
 import CaregiverCard from "@/components/CaregiverCard";
 import heroImage from "@/assets/hero.png";
+import { useState } from "react";
 
 const serviceTypes = [
   {
@@ -67,6 +68,7 @@ const trustItems = [
 ];
 
 export default function HomePage() {
+  const [recommendedOnly, setRecommendedOnly] = useState(false);
   const { data: featuredCaregivers } = useGetFeaturedCaregivers();
   const { data: matchingStatus } = useGetMatchingStatus();
 
@@ -75,6 +77,17 @@ export default function HomePage() {
     : Array.isArray((featuredCaregivers as any)?.data)
       ? (featuredCaregivers as any).data
       : [];
+
+  const sortedCaregivers = [...caregivers].sort((a: any, b: any) => {
+    const scoreA = (a.rating || 0) + (a.experience || 0);
+    const scoreB = (b.rating || 0) + (b.experience || 0);
+
+    return scoreB - scoreA;
+  });
+
+  const displayedCaregivers = recommendedOnly
+    ? sortedCaregivers.slice(0, 3)
+    : caregivers;
 
   return (
     <div className="min-h-screen">
@@ -181,28 +194,35 @@ export default function HomePage() {
                 검증되고 평점 높은 전문가를 소개합니다
               </p>
             </div>
-            <Link href="/caregivers" data-testid="link-see-all-caregivers">
-              <Button variant="outline" className="gap-2">
-                전체 보기
-                <ArrowRight className="w-4 h-4" />
+            <div className="flex gap-3">
+              <Button
+                variant={recommendedOnly ? "default" : "outline"}
+                onClick={() => setRecommendedOnly(!recommendedOnly)}
+              >
+                AI 추천 보기
               </Button>
-            </Link>
+              <Link href="/caregivers" data-testid="link-see-all-caregivers">
+                <Button variant="outline" className="gap-2">
+                  전체 보기
+                  <ArrowRight className="w-4 h-4" />
+                </Button>
+              </Link>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+              {displayedCaregivers.length > 0 ? (
+                displayedCaregivers.map((cg: any) => (
+                  <CaregiverCard key={cg?.id ?? Math.random()} caregiver={cg} />
+                ))
+              ) : (
+                [1, 2, 3].map((i) => (
+                  <div
+                    key={i}
+                    className="h-64 rounded-2xl bg-muted animate-pulse"
+                  />
+                ))
+              )}
+            </div>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-            {caregivers.length > 0 ? (
-              caregivers.map((cg: any) => (
-                <CaregiverCard key={cg?.id ?? Math.random()} caregiver={cg} />
-              ))
-            ) : (
-              [1, 2, 3].map((i) => (
-                <div
-                  key={i}
-                  className="h-64 rounded-2xl bg-muted animate-pulse"
-                />
-              ))
-            )}
-          </div>
-        </div>
       </section>
 
       {/* Service Types */}

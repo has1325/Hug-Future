@@ -137,7 +137,7 @@ export default function CaregiversPage() {
           <>
             <div className="flex items-center justify-between mb-5">
               <p className="text-sm text-muted-foreground">
-                총 <span className="font-semibold text-foreground">{caregiverList.total}명</span>의 돌봄 인력
+                총 <span className="font-semibold text-foreground">{caregiverList?.total || 0}명</span>의 돌봄 인력
               </p>
               {hasFilters && (
                 <Button variant="ghost" size="sm" onClick={clearFilters} className="text-muted-foreground">
@@ -145,7 +145,7 @@ export default function CaregiversPage() {
                 </Button>
               )}
             </div>
-            {caregiverList.caregivers.length === 0 ? (
+            {(caregiverList.caregivers || []).length === 0 ? (
               <div className="text-center py-20 text-muted-foreground">
                 <Search className="w-12 h-12 mx-auto mb-4 opacity-30" />
                 <p className="text-lg font-medium">검색 결과가 없습니다</p>
@@ -153,7 +153,7 @@ export default function CaregiversPage() {
               </div>
             ) : (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-                {caregiverList.caregivers.map((cg) => (
+                {(caregiverList.caregivers || []).map((cg) => (
                   <CaregiverCard key={cg.id} caregiver={cg} />
                 ))}
               </div>

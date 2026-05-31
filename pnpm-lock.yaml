@@ -156,6 +156,10 @@ overrides:
 importers:
 
   .:
+    dependencies:
+      mysql2:
+        specifier: ^3.22.4
+        version: 3.22.4(@types/node@25.6.0)
     devDependencies:
       prettier:
         specifier: ^3.8.1

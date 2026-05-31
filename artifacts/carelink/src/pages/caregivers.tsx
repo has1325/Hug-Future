@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Search, SlidersHorizontal, X } from "lucide-react";
 import { useListCaregivers } from "@workspace/api-client-react";
 import { Button } from "@/components/ui/button";
@@ -20,7 +20,36 @@ export default function CaregiversPage() {
   const [filters, setFilters] = useState<ListCaregiversParams>({});
   const [showFilters, setShowFilters] = useState(false);
 
-  const { data: caregiverList } = useListCaregivers(filters);
+  const [caregiverList, setCaregiverList] = useState<any>(null);
+
+  useEffect(() => {
+    const params = new URLSearchParams();
+
+    if (filters.region)
+      params.append("region", filters.region);
+
+    if (filters.careType)
+      params.append("careType", filters.careType);
+
+    if (filters.gender)
+      params.append("gender", filters.gender);
+
+    if (filters.minExperience)
+      params.append(
+        "minExperience",
+        String(filters.minExperience)
+      );
+
+    fetch(
+      `/.netlify/functions/caregivers?${params.toString()}`
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        console.log("caregivers:", data);
+        setCaregiverList(data);
+      })
+      .catch(console.error);
+  }, [filters]);
 
   const clearFilters = () => setFilters({});
   const hasFilters = Object.keys(filters).some((k) => filters[k as keyof ListCaregiversParams] != null);

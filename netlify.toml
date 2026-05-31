@@ -3,7 +3,9 @@
   publish = "artifacts/carelink/dist"
 
 [functions]
-  directory = "netlify/functions"
+directory = "netlify/functions"
+external_node_modules = ["mysql2"]
+node_bundler = "esbuild"
 
 [[redirects]]
   from = "/api/*"

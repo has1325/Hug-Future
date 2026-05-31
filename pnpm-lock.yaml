@@ -221,6 +221,10 @@ importers:
         version: 3.1.0
 
   artifacts/carelink:
+    dependencies:
+      mysql2:
+        specifier: ^3.22.4
+        version: 3.22.4(@types/node@25.6.0)
     devDependencies:
       '@hookform/resolvers':
         specifier: ^3.10.0

@@ -184,11 +184,6 @@ export default function HomePage() {
         </section>
       )}
 
-      {/* Featured Caregivers */}
-      <section className="py-16 bg-background">
-        
-      </section>
-
       {/* Service Types */}
       <section className="py-16 bg-muted/30">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

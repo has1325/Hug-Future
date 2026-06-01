@@ -22,7 +22,7 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <Link href="/" data-testid="link-logo">
-            <span className="text-2xl font-bold text-primary tracking-tight">
+            <span className="text-2xl font-bold text-[#119352] tracking-tight">
               허그퓨쳐
             </span>
           </Link>
@@ -50,13 +50,19 @@ export default function Navbar() {
 
           <div className="hidden md:flex items-center gap-2">
             <Link href="/emergency" data-testid="btn-emergency-nav">
-              <Button variant="destructive" size="sm" className="gap-1.5">
+              <Button
+                size="sm"
+                className="gap-1.5 bg-[#E5000D] hover:bg-[#C4000B] text-white"
+              >
                 <AlertTriangle className="w-3.5 h-3.5" />
                 긴급 요청
               </Button>
             </Link>
             <Link href="/consultation" data-testid="btn-consultation-nav">
-              <Button size="sm" className="gap-1.5">
+              <Button
+                size="sm"
+                className="gap-1.5 bg-[#119352] hover:bg-[#0F7F47] text-white"
+              >
                 <Phone className="w-3.5 h-3.5" />
                 상담 신청
               </Button>

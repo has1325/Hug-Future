@@ -129,13 +129,29 @@ export default function HomePage() {
 
             <div className="mt-8 flex flex-wrap gap-3">
               <Link href="/caregivers" data-testid="btn-hero-find">
-                <Button size="lg" className="gap-2 px-6">
+                <Button
+                  size="lg"
+                  className="
+    gap-2 px-6
+    bg-[#119352]
+    hover:bg-[#0f7f47]
+    text-white
+  "
+                >
                   돌봄 인력 찾기
                   <ArrowRight className="w-4 h-4" />
                 </Button>
               </Link>
               <Link href="/emergency" data-testid="btn-hero-emergency">
-                <Button size="lg" variant="destructive" className="gap-2 px-6">
+                <Button
+                  size="lg"
+                  className="
+    gap-2 px-6
+    bg-[#E5000D]
+    hover:bg-[#c4000b]
+    text-white
+  "
+                >
                   <AlertTriangle className="w-4 h-4" />
                   긴급 요청
                 </Button>

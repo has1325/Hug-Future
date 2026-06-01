@@ -66,18 +66,28 @@ export default function CaregiversPage() {
               ].map((item) => (
                 <Button
                   key={item}
-                  variant="outline"
-                  onClick={() => {
+                  variant={
+                    formData.careType === item
+                      ? "default"
+                      : "outline"
+                  }
+                  onClick={() =>
                     setFormData({
                       ...formData,
                       careType: item,
-                    });
-                    setStep(2);
-                  }}
+                    })
+                  }
                 >
                   {item}
                 </Button>
               ))}
+              <Button
+                className="w-full mt-6"
+                disabled={!formData.careType}
+                onClick={() => setStep(2)}
+              >
+                다음
+              </Button>
             </div>
           </div>
         )}
@@ -99,27 +109,30 @@ export default function CaregiversPage() {
               ].map((item) => (
                 <Button
                   key={item}
-                  variant="outline"
-                  onClick={() => {
+                  variant={
+                    formData.region === item
+                      ? "default"
+                      : "outline"
+                  }
+                  onClick={() =>
                     setFormData({
                       ...formData,
                       region: item,
-                    });
-                    setStep(3);
-                  }}
+                    })
+                  }
                 >
                   {item}
                 </Button>
               ))}
+              <Button
+                className="w-full mt-6"
+                disabled={!formData.region}
+                onClick={() => setStep(3)}
+              >
+                다음
+              </Button>
             </div>
 
-            <Button
-              variant="ghost"
-              className="mt-4"
-              onClick={() => setStep(1)}
-            >
-              이전
-            </Button>
           </div>
         )}
 
@@ -139,27 +152,30 @@ export default function CaregiversPage() {
               ].map((item) => (
                 <Button
                   key={item}
-                  variant="outline"
-                  onClick={() => {
+                  variant={
+                    formData.target === item
+                      ? "default"
+                      : "outline"
+                  }
+                  onClick={() =>
                     setFormData({
                       ...formData,
                       target: item,
-                    });
-                    setStep(4);
-                  }}
+                    })
+                  }
                 >
                   {item}
                 </Button>
               ))}
+              <Button
+                className="w-full mt-6"
+                disabled={!formData.target}
+                onClick={() => setStep(4)}
+              >
+                다음
+              </Button>
             </div>
 
-            <Button
-              variant="ghost"
-              className="mt-4"
-              onClick={() => setStep(2)}
-            >
-              이전
-            </Button>
           </div>
         )}
 
@@ -179,27 +195,30 @@ export default function CaregiversPage() {
               ].map((item) => (
                 <Button
                   key={item}
-                  variant="outline"
-                  onClick={() => {
+                  variant={
+                    formData.time === item
+                      ? "default"
+                      : "outline"
+                  }
+                  onClick={() =>
                     setFormData({
                       ...formData,
                       time: item,
-                    });
-                    setStep(5);
-                  }}
+                    })
+                  }
                 >
                   {item}
                 </Button>
               ))}
+              <Button
+                className="w-full mt-6"
+                disabled={!formData.time}
+                onClick={() => setStep(5)}
+              >
+                다음
+              </Button>
             </div>
 
-            <Button
-              variant="ghost"
-              className="mt-4"
-              onClick={() => setStep(3)}
-            >
-              이전
-            </Button>
           </div>
         )}
 
@@ -219,27 +238,30 @@ export default function CaregiversPage() {
               ].map((item) => (
                 <Button
                   key={item}
-                  variant="outline"
-                  onClick={() => {
+                  variant={
+                    formData.urgent === item
+                      ? "default"
+                      : "outline"
+                  }
+                  onClick={() =>
                     setFormData({
                       ...formData,
                       urgent: item,
-                    });
-                    setStep(6);
-                  }}
+                    })
+                  }
                 >
                   {item}
                 </Button>
               ))}
+              <Button
+                className="w-full mt-6"
+                disabled={!formData.urgent}
+                onClick={() => setStep(6)}
+              >
+                신청서 작성하기
+              </Button>
             </div>
 
-            <Button
-              variant="ghost"
-              className="mt-4"
-              onClick={() => setStep(4)}
-            >
-              이전
-            </Button>
           </div>
         )}
 
@@ -290,13 +312,6 @@ export default function CaregiversPage() {
               />
 
               <div className="flex gap-3">
-                <Button
-                  variant="outline"
-                  className="flex-1"
-                  onClick={() => setStep(5)}
-                >
-                  이전
-                </Button>
 
                 <Button
                   className="flex-1"

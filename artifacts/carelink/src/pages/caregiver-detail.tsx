@@ -20,6 +20,7 @@ interface Props {
 export default function CaregiverDetailPage({ id }: Props) {
   const numId = parseInt(id, 10);
   const { data: caregiver } = useGetCaregiver(numId, { query: { enabled: !!numId, queryKey: getGetCaregiverQueryKey(numId) } });
+  console.log("caregiver detail =", caregiver);
   const createBooking = useCreateBooking();
   const { toast } = useToast();
   const [showBookForm, setShowBookForm] = useState(false);
@@ -72,7 +73,7 @@ export default function CaregiverDetailPage({ id }: Props) {
             <div className="bg-card border border-card-border rounded-2xl p-6">
               <div className="flex items-start gap-5">
                 <div className="w-24 h-24 rounded-2xl bg-gradient-to-br from-primary/20 to-secondary/20 flex items-center justify-center text-4xl font-bold text-primary flex-shrink-0">
-                  {caregiver.name[0]}
+                  {caregiver?.name?.charAt(0) || "돌"}
                 </div>
                 <div className="flex-1">
                   <div className="flex flex-wrap items-center gap-2">
@@ -86,7 +87,9 @@ export default function CaregiverDetailPage({ id }: Props) {
                   </div>
                   <div className="flex items-center gap-1 mt-1">
                     <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
-                    <span className="font-semibold">{caregiver.rating.toFixed(1)}</span>
+                    <span className="font-semibold">
+                      {Number(caregiver?.rating ?? 0).toFixed(1)}
+                    </span>
                     <span className="text-sm text-muted-foreground">({caregiver.reviewCount}개 후기)</span>
                   </div>
                   <div className="flex items-center gap-1 mt-1 text-sm text-muted-foreground">

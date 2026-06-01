@@ -188,35 +188,6 @@ export default function HomePage() {
       <section className="py-16 bg-background">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
-          {/* 상단 제목 + 버튼 */}
-          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-10">
-            <div>
-              <h2 className="text-3xl font-bold text-foreground">
-                추천 돌봄 인력
-              </h2>
-
-              <p className="mt-2 text-muted-foreground">
-                검증되고 평점 높은 전문가를 소개합니다
-              </p>
-            </div>
-
-            <div className="flex gap-3">
-              <Button
-                variant={recommendedOnly ? "default" : "outline"}
-                onClick={() => setRecommendedOnly(!recommendedOnly)}
-              >
-                AI 추천 보기
-              </Button>
-
-              <Link href="/caregivers" data-testid="link-see-all-caregivers">
-                <Button variant="outline" className="gap-2">
-                  전체 보기
-                  <ArrowRight className="w-4 h-4" />
-                </Button>
-              </Link>
-            </div>
-          </div>
-
           {/* 카드 리스트 */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {displayedCaregivers.length > 0 ? (

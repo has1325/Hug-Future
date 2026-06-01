@@ -1,198 +1,245 @@
-import { useEffect, useState } from "react";
-import { Search, SlidersHorizontal, X } from "lucide-react";
-import { useListCaregivers } from "@workspace/api-client-react";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import CaregiverCard from "@/components/CaregiverCard";
-import type { ListCaregiversParams } from "@workspace/api-client-react";
-
-const ALL = "__all__";
-
-const regions = ["서울 강남구", "서울 송파구", "서울 노원구", "서울 마포구", "경기 성남시", "인천 연수구"];
-const careTypes = [
-  { value: "child", label: "아이 돌봄" },
-  { value: "elderly", label: "노인 돌봄" },
-  { value: "education", label: "교육 돌봄" },
-  { value: "living", label: "생활 케어" },
-];
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 export default function CaregiversPage() {
-  const [filters, setFilters] = useState<ListCaregiversParams>({});
-  const [showFilters, setShowFilters] = useState(false);
+  const [step, setStep] = useState(1);
 
-  const [caregiverList, setCaregiverList] = useState<any>(null);
-
-  useEffect(() => {
-    const params = new URLSearchParams();
-
-    if (filters.region)
-      params.append("region", filters.region);
-
-    if (filters.careType)
-      params.append("careType", filters.careType);
-
-    if (filters.gender)
-      params.append("gender", filters.gender);
-
-    if (filters.minExperience)
-      params.append(
-        "minExperience",
-        String(filters.minExperience)
-      );
-
-    fetch(
-      `/.netlify/functions/caregivers?${params.toString()}`
-    )
-      .then((res) => res.json())
-      .then((data) => {
-        console.log("caregivers:", data);
-        setCaregiverList(data);
-      })
-      .catch(console.error);
-  }, [filters]);
-
-  const clearFilters = () => setFilters({});
-  const hasFilters = Object.keys(filters).some((k) => filters[k as keyof ListCaregiversParams] != null);
+  const [formData, setFormData] = useState({
+    careType: "",
+    region: "",
+    name: "",
+    phone: "",
+    detail: "",
+  });
 
   return (
     <div className="min-h-screen pt-20 pb-24">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="max-w-4xl mx-auto px-4 py-8">
+
+        {/* 제목 */}
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-foreground">돌봄 인력 찾기</h1>
-          <p className="mt-2 text-muted-foreground">검증된 전문가를 필터로 빠르게 찾아보세요</p>
+          <h1 className="text-3xl font-bold">
+            돌봄 인력 신청
+          </h1>
+
+          <p className="mt-2 text-muted-foreground">
+            간단한 설문 후 돌봄 서비스를 신청할 수 있습니다.
+          </p>
         </div>
 
-        {/* Filter Section */}
-        <div className="bg-card border border-card-border rounded-2xl p-5 mb-8">
-          <div className="flex items-center justify-between mb-4">
-            <div className="flex items-center gap-2 font-medium text-foreground">
-              <SlidersHorizontal className="w-4 h-4" />
-              필터 검색
-            </div>
-            <div className="flex items-center gap-2">
-              {hasFilters && (
-                <Button variant="ghost" size="sm" onClick={clearFilters} className="gap-1.5 text-muted-foreground">
-                  <X className="w-3.5 h-3.5" />
-                  초기화
-                </Button>
-              )}
-              <button
-                className="md:hidden text-sm text-primary font-medium"
-                onClick={() => setShowFilters(!showFilters)}
-                data-testid="btn-toggle-filters"
+        {/* STEP 1 */}
+        {step === 1 && (
+          <div className="bg-white border rounded-2xl p-6">
+
+            <h2 className="text-xl font-bold mb-6">
+              서비스 설문
+            </h2>
+
+            <div className="space-y-4">
+
+              <div>
+                <label className="block mb-2">
+                  어떤 돌봄이 필요하신가요?
+                </label>
+
+                <Select
+                  value={formData.careType}
+                  onValueChange={(value) =>
+                    setFormData({
+                      ...formData,
+                      careType: value,
+                    })
+                  }
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="선택하세요" />
+                  </SelectTrigger>
+
+                  <SelectContent>
+                    <SelectItem value="child">
+                      아이 돌봄
+                    </SelectItem>
+
+                    <SelectItem value="elderly">
+                      노인 돌봄
+                    </SelectItem>
+
+                    <SelectItem value="education">
+                      교육 돌봄
+                    </SelectItem>
+
+                    <SelectItem value="living">
+                      생활 케어
+                    </SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div>
+                <label className="block mb-2">
+                  지역
+                </label>
+
+                <input
+                  className="w-full border rounded-lg p-3"
+                  placeholder="예) 서울 강남구"
+                  value={formData.region}
+                  onChange={(e) =>
+                    setFormData({
+                      ...formData,
+                      region: e.target.value,
+                    })
+                  }
+                />
+              </div>
+
+              <Button
+                className="w-full"
+                onClick={() => setStep(2)}
               >
-                {showFilters ? "접기" : "펼치기"}
-              </button>
+                다음 단계
+              </Button>
+
             </div>
           </div>
+        )}
 
-          <div className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 ${showFilters || "hidden md:grid"}`}>
-            <div>
-              <label className="text-xs font-medium text-muted-foreground mb-1.5 block">지역</label>
-              <Select
-                value={filters.region ?? ALL}
-                onValueChange={(v) => setFilters((f) => ({ ...f, region: v === ALL ? undefined : v }))}
-              >
-                <SelectTrigger data-testid="select-region">
-                  <SelectValue placeholder="전체 지역" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value={ALL}>전체 지역</SelectItem>
-                  {regions.map((r) => (
-                    <SelectItem key={r} value={r}>{r}</SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
+        {/* STEP 2 */}
+        {step === 2 && (
+          <div className="bg-white border rounded-2xl p-6">
 
-            <div>
-              <label className="text-xs font-medium text-muted-foreground mb-1.5 block">돌봄 유형</label>
-              <Select
-                value={filters.careType ?? ALL}
-                onValueChange={(v) => setFilters((f) => ({ ...f, careType: (v === ALL ? undefined : v) as typeof f.careType }))}
-              >
-                <SelectTrigger data-testid="select-care-type">
-                  <SelectValue placeholder="전체 유형" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value={ALL}>전체 유형</SelectItem>
-                  {careTypes.map((c) => (
-                    <SelectItem key={c.value} value={c.value}>{c.label}</SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
+            <h2 className="text-xl font-bold mb-6">
+              신청서 작성
+            </h2>
 
-            <div>
-              <label className="text-xs font-medium text-muted-foreground mb-1.5 block">성별</label>
-              <Select
-                value={filters.gender ?? ALL}
-                onValueChange={(v) => setFilters((f) => ({ ...f, gender: (v === ALL ? undefined : v) as typeof f.gender }))}
-              >
-                <SelectTrigger data-testid="select-gender">
-                  <SelectValue placeholder="전체" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value={ALL}>전체</SelectItem>
-                  <SelectItem value="female">여성</SelectItem>
-                  <SelectItem value="male">남성</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
+            <div className="space-y-4">
 
-            <div>
-              <label className="text-xs font-medium text-muted-foreground mb-1.5 block">최소 경력 (년)</label>
-              <Select
-                value={filters.minExperience?.toString() ?? ALL}
-                onValueChange={(v) => setFilters((f) => ({ ...f, minExperience: v === ALL ? undefined : parseInt(v) }))}
-              >
-                <SelectTrigger data-testid="select-experience">
-                  <SelectValue placeholder="전체" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value={ALL}>전체</SelectItem>
-                  <SelectItem value="1">1년 이상</SelectItem>
-                  <SelectItem value="3">3년 이상</SelectItem>
-                  <SelectItem value="5">5년 이상</SelectItem>
-                  <SelectItem value="10">10년 이상</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-          </div>
-        </div>
+              <input
+                className="w-full border rounded-lg p-3"
+                placeholder="이름"
+                value={formData.name}
+                onChange={(e) =>
+                  setFormData({
+                    ...formData,
+                    name: e.target.value,
+                  })
+                }
+              />
 
-        {/* Results */}
-        {caregiverList ? (
-          <>
-            <div className="flex items-center justify-between mb-5">
-              <p className="text-sm text-muted-foreground">
-                총 <span className="font-semibold text-foreground">{caregiverList?.total || 0}명</span>의 돌봄 인력
-              </p>
-              {hasFilters && (
-                <Button variant="ghost" size="sm" onClick={clearFilters} className="text-muted-foreground">
-                  필터 초기화
+              <input
+                className="w-full border rounded-lg p-3"
+                placeholder="전화번호"
+                value={formData.phone}
+                onChange={(e) =>
+                  setFormData({
+                    ...formData,
+                    phone: e.target.value,
+                  })
+                }
+              />
+
+              <textarea
+                rows={5}
+                className="w-full border rounded-lg p-3"
+                placeholder="원하시는 돌봄 내용을 작성해주세요"
+                value={formData.detail}
+                onChange={(e) =>
+                  setFormData({
+                    ...formData,
+                    detail: e.target.value,
+                  })
+                }
+              />
+
+              <div className="flex gap-3">
+
+                <Button
+                  variant="outline"
+                  className="flex-1"
+                  onClick={() => setStep(1)}
+                >
+                  이전
                 </Button>
-              )}
+
+                <Button
+                  className="flex-1"
+                  onClick={() => {
+                    console.log(formData);
+
+                    // 나중에 여기서 DB 저장
+                    setStep(3);
+                  }}
+                >
+                  신청하기
+                </Button>
+
+              </div>
+
             </div>
-            {(caregiverList.caregivers || []).length === 0 ? (
-              <div className="text-center py-20 text-muted-foreground">
-                <Search className="w-12 h-12 mx-auto mb-4 opacity-30" />
-                <p className="text-lg font-medium">검색 결과가 없습니다</p>
-                <p className="text-sm mt-1">필터를 바꿔 다시 시도해보세요</p>
+
+          </div>
+        )}
+
+        {/* STEP 3 */}
+        {step === 3 && (
+          <div className="bg-white border rounded-2xl p-10 text-center">
+
+            <h2 className="text-3xl font-bold mb-4">
+              신청 완료
+            </h2>
+
+            <p className="text-muted-foreground mb-6">
+              신청이 정상적으로 접수되었습니다.
+            </p>
+
+            <div className="space-y-2 text-left max-w-md mx-auto">
+
+              <div>
+                <strong>돌봄 유형:</strong>{" "}
+                {formData.careType}
               </div>
-            ) : (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-                {(caregiverList.caregivers || []).map((cg) => (
-                  <CaregiverCard key={cg.id} caregiver={cg} />
-                ))}
+
+              <div>
+                <strong>지역:</strong>{" "}
+                {formData.region}
               </div>
-            )}
-          </>
-        ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-            {[1, 2, 3, 4, 5, 6].map((i) => (
-              <div key={i} className="h-64 rounded-2xl bg-muted animate-pulse" />
-            ))}
+
+              <div>
+                <strong>이름:</strong>{" "}
+                {formData.name}
+              </div>
+
+              <div>
+                <strong>전화번호:</strong>{" "}
+                {formData.phone}
+              </div>
+
+            </div>
+
+            <Button
+              className="mt-8"
+              onClick={() => {
+                setStep(1);
+
+                setFormData({
+                  careType: "",
+                  region: "",
+                  name: "",
+                  phone: "",
+                  detail: "",
+                });
+              }}
+            >
+              새 신청하기
+            </Button>
+
           </div>
         )}
       </div>

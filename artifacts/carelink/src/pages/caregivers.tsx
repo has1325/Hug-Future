@@ -15,6 +15,11 @@ export default function CaregiversPage() {
     detail: "",
   });
 
+  const isValidPhone =
+    /^01[0-9]-?[0-9]{3,4}-?[0-9]{4}$/.test(
+      formData.phone
+    );
+
   const progress = (step / 7) * 100;
 
   return (
@@ -82,7 +87,7 @@ export default function CaregiversPage() {
                 </Button>
               ))}
               <Button
-                className="w-full mt-6"
+                className="w-full mt-6 bg-blue-600 hover:bg-blue-700 text-white"
                 disabled={!formData.careType}
                 onClick={() => setStep(2)}
               >
@@ -125,7 +130,7 @@ export default function CaregiversPage() {
                 </Button>
               ))}
               <Button
-                className="w-full mt-6"
+                className="w-full mt-6 bg-blue-600 hover:bg-blue-700 text-white"
                 disabled={!formData.region}
                 onClick={() => setStep(3)}
               >
@@ -168,7 +173,7 @@ export default function CaregiversPage() {
                 </Button>
               ))}
               <Button
-                className="w-full mt-6"
+                className="w-full mt-6 bg-blue-600 hover:bg-blue-700 text-white"
                 disabled={!formData.target}
                 onClick={() => setStep(4)}
               >
@@ -211,7 +216,7 @@ export default function CaregiversPage() {
                 </Button>
               ))}
               <Button
-                className="w-full mt-6"
+                className="w-full mt-6 bg-blue-600 hover:bg-blue-700 text-white"
                 disabled={!formData.time}
                 onClick={() => setStep(5)}
               >
@@ -254,7 +259,7 @@ export default function CaregiversPage() {
                 </Button>
               ))}
               <Button
-                className="w-full mt-6"
+                className="w-full mt-6 bg-blue-600 hover:bg-blue-700 text-white"
                 disabled={!formData.urgent}
                 onClick={() => setStep(6)}
               >
@@ -311,19 +316,37 @@ export default function CaregiversPage() {
                 }
               />
 
-              <div className="flex gap-3">
+              <div className="space-y-3">
+
+                {(!formData.name ||
+                  !formData.phone ||
+                  !formData.detail) && (
+                    <p className="text-red-500 text-sm">
+                      이름, 연락처, 요청사항을 모두 입력해주세요.
+                    </p>
+                  )}
+
+                {formData.phone &&
+                  !isValidPhone && (
+                    <p className="text-red-500 text-sm">
+                      올바른 전화번호를 입력해주세요.
+                    </p>
+                  )}
 
                 <Button
-                  className="flex-1"
+                  className="w-full bg-green-600 hover:bg-green-700"
+                  disabled={
+                    !formData.name ||
+                    !isValidPhone ||
+                    !formData.detail
+                  }
                   onClick={() => {
-                    console.log(formData);
-
-                    // 여기서 나중에 DB 저장
                     setStep(7);
                   }}
                 >
                   신청하기
                 </Button>
+
               </div>
 
             </div>

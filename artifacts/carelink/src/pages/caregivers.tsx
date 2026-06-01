@@ -340,8 +340,43 @@ export default function CaregiversPage() {
                     !isValidPhone ||
                     !formData.detail
                   }
-                  onClick={() => {
-                    setStep(7);
+                  onClick={async () => {
+
+                    try {
+
+                      const response = await fetch(
+                        "/.netlify/functions/submit-care-request",
+                        {
+                          method: "POST",
+
+                          headers: {
+                            "Content-Type": "application/json",
+                          },
+
+                          body: JSON.stringify(formData),
+                        }
+                      );
+
+                      const result = await response.json();
+
+                      if (result.success) {
+
+                        setStep(7);
+
+                      } else {
+
+                        alert("신청 저장 실패");
+
+                      }
+
+                    } catch (error) {
+
+                      console.error(error);
+
+                      alert("서버 오류");
+
+                    }
+
                   }}
                 >
                   신청하기

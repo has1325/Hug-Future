@@ -186,28 +186,7 @@ export default function HomePage() {
 
       {/* Featured Caregivers */}
       <section className="py-16 bg-background">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-
-          {/* 카드 리스트 */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-            {displayedCaregivers.length > 0 ? (
-              displayedCaregivers.map((cg: any) => (
-                <CaregiverCard
-                  key={cg?.id ?? Math.random()}
-                  caregiver={cg}
-                />
-              ))
-            ) : (
-              [1, 2, 3].map((i) => (
-                <div
-                  key={i}
-                  className="h-64 rounded-2xl bg-muted animate-pulse"
-                />
-              ))
-            )}
-          </div>
-
-        </div>
+        
       </section>
 
       {/* Service Types */}

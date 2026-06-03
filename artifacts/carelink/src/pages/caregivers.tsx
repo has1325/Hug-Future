@@ -64,7 +64,6 @@ export default function CaregiversPage() {
 
             <div className="grid gap-3">
               {[
-                "아이 돌봄",
                 "노인 돌봄",
                 "교육 돌봄",
                 "생활 케어",
@@ -150,8 +149,6 @@ export default function CaregiversPage() {
 
             <div className="grid gap-3">
               {[
-                "영유아",
-                "초등학생",
                 "성인",
                 "노인",
               ].map((item) => (

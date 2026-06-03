@@ -106,7 +106,6 @@ export default function EmergencyPage() {
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
-                          <SelectItem value="child">아이</SelectItem>
                           <SelectItem value="elderly">노인/어르신</SelectItem>
                         </SelectContent>
                       </Select>

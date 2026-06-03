@@ -22,13 +22,6 @@ import { useState } from "react";
 
 const serviceTypes = [
   {
-    icon: "👶",
-    title: "아이 돌봄",
-    desc: "신생아부터 초등까지 맞춤 케어",
-    color: "bg-blue-50 border-blue-200 text-blue-700",
-    href: "/caregivers?careType=child",
-  },
-  {
     icon: "🧓",
     title: "노인 돌봄",
     desc: "어르신 전문 케어 & 생활 지원",

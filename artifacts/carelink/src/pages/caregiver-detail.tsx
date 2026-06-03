@@ -7,6 +7,7 @@ import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 
 const careTypeLabel: Record<string, string> = {
+  child: "아이 돌봄",
   elderly: "노인 돌봄",
   education: "교육 돌봄",
   living: "생활 케어",

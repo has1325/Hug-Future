@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import type { GetFeaturedCaregiversResponseItem } from "@workspace/api-client-react";
 
 const careTypeLabel: Record<string, string> = {
+  child: "아이 돌봄",
   elderly: "노인 돌봄",
   education: "교육 돌봄",
   living: "생활 케어",

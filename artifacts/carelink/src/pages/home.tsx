@@ -22,6 +22,13 @@ import { useState } from "react";
 
 const serviceTypes = [
   {
+    icon: "👶",
+    title: "아이 돌봄",
+    desc: "신생아부터 초등까지 맞춤 케어",
+    color: "bg-blue-50 border-blue-200 text-blue-700",
+    href: "/caregivers?careType=child",
+  },
+  {
     icon: "🧓",
     title: "노인 돌봄",
     desc: "어르신 전문 케어 & 생활 지원",
@@ -108,7 +115,7 @@ export default function HomePage() {
             </Badge>
 
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
-              우리
+              우리 아이와
               <br />
               <span className="text-primary">부모님을 위한</span>
               <br />

@@ -115,7 +115,6 @@ export default function HomePage() {
             </Badge>
 
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
-              허그퓨쳐
               <br />
               <span className="text-primary">시니어</span>
               <br />

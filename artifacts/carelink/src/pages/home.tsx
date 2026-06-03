@@ -115,11 +115,11 @@ export default function HomePage() {
             </Badge>
 
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
-              우리 아이와
+              허그퓨쳐
               <br />
-              <span className="text-primary">부모님을 위한</span>
+              <span className="text-primary">시니어</span>
               <br />
-              맞춤 돌봄
+              행복 센터
             </h1>
 
             <p className="mt-6 text-lg text-white/80 max-w-xl leading-relaxed">

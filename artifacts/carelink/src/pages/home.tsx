@@ -115,7 +115,7 @@ export default function HomePage() {
             </Badge>
 
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
-              우리 아이와
+              우리
               <br />
               <span className="text-primary">부모님을 위한</span>
               <br />
